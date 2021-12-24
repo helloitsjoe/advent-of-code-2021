@@ -1,3 +1,8 @@
+pub fn run() {
+  let increases = get_window_increases(get_input(false));
+  println!("{:?}", increases);
+}
+
 fn get_depth_increases(input: Vec<u32>) -> u32 {
   let mut increases: u32 = 0;
   let mut prev: u32 = 0;
@@ -30,11 +35,6 @@ fn get_window_increases(input: Vec<u32>) -> u32 {
   }
 
   increases
-}
-
-pub fn run() {
-  let increases = get_window_increases(get_input(false));
-  println!("{:?}", increases);
 }
 
 fn get_input(test: bool) -> Vec<u32> {
