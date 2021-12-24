@@ -1,4 +1,4 @@
-fn how_many_depth_increases(input: Vec<u32>) -> u32 {
+fn get_depth_increases(input: Vec<u32>) -> u32 {
   let mut increases: u32 = 0;
   let mut prev: u32 = 0;
   for num in input {
@@ -11,15 +11,34 @@ fn how_many_depth_increases(input: Vec<u32>) -> u32 {
   increases
 }
 
+fn get_window_increases(input: Vec<u32>) -> u32 {
+  let mut increases: u32 = 0;
+  let mut prev: u32 = 0;
+  const WINDOW_SIZE: usize = 3;
+
+  for num in 0..input.len() - 2 {
+    // println!("{:?}", input);
+    let foo = &input[num..(num + WINDOW_SIZE)];
+    println!("foo: {:?}", foo);
+    let sum = input[num..(num + WINDOW_SIZE)].iter().sum();
+    println!("sum: {:?}", sum);
+
+    if prev != 0 && sum > prev {
+      increases += 1;
+    }
+    prev = sum;
+  }
+
+  increases
+}
+
 pub fn run() {
-  let increases = how_many_depth_increases(get_input(false));
+  let increases = get_window_increases(get_input(false));
   println!("{:?}", increases);
 }
 
 fn get_input(test: bool) -> Vec<u32> {
-  let input_test = vec![
-    100, 125, 124, 127, 141, 145, 160, 161, 178, 185, 193, 196, 195, 200,
-  ];
+  let input_test = vec![199, 200, 208, 210, 200, 207, 240, 269, 260, 263];
 
   let input = vec![
     100, 125, 124, 127, 141, 145, 160, 161, 178, 185, 193, 196, 195, 200, 212, 216, 222, 244, 274,
@@ -154,7 +173,12 @@ fn get_input(test: bool) -> Vec<u32> {
   }
 }
 
+// #[test]
+// fn small_input() {
+//   assert_eq!(get_depth_increases(get_input(true)), 11)
+// }
+
 #[test]
 fn small_input() {
-  assert_eq!(how_many_depth_increases(get_input(true)), 11)
+  assert_eq!(get_window_increases(get_input(true)), 5)
 }
