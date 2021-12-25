@@ -6,6 +6,7 @@ pub fn run() {
 fn dive(input: Vec<String>) -> u32 {
   let mut horiz = 0;
   let mut depth = 0;
+  let mut aim = 0;
 
   for movement in input {
     let foo = movement.split(" ").collect::<Vec<&str>>();
@@ -13,9 +14,18 @@ fn dive(input: Vec<String>) -> u32 {
     let distance: u32 = foo[1].parse().unwrap();
 
     match (direction, distance) {
-      ("forward", d) => horiz += d,
-      ("down", d) => depth += d,
-      ("up", d) => depth -= d,
+      ("forward", d) => {
+        horiz += d;
+        depth += aim * d;
+      }
+      ("down", d) => {
+        aim += d;
+        depth += d;
+      }
+      ("up", d) => {
+        aim -= d;
+        depth -= d;
+      }
       (_, _) => panic!("Unknown direction"),
     }
   }
@@ -1045,5 +1055,5 @@ fn get_input(test: bool) -> Vec<String> {
 
 #[test]
 fn small_input() {
-  assert_eq!(dive(get_input(true)), 150)
+  assert_eq!(dive(get_input(true)), 900)
 }
